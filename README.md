@@ -8,7 +8,7 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 Once Helm has been set up correctly, add the repo as follows:
 
   ``` shell
-    helm repo add thegang https://thegangtechnology.github.io/helm-charts
+    helm repo add thegang https://thegang.tech/helm-charts
   ```    
 
 If you had already added this repo earlier, run `helm repo update` to retrieve
