@@ -11,4 +11,15 @@ entries:
     urls:
     - https://github.com/thegangtechnology/helm-charts/releases/download/demo-0.1.0/demo-0.1.0.tgz
     version: 0.1.0
-generated: "2024-08-06T06:31:15.895761809Z"
+  gateway-operator:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-08-26T18:20:22.834407612Z"
+    description: A Helm chart for Kubernetes
+    digest: 38ca30e8aa915c99702d7b2ef3796789833dd60f09db8dba52306e7cffb35fb3
+    name: gateway-operator
+    type: application
+    urls:
+    - https://github.com/thegangtechnology/helm-charts/releases/download/gateway-operator-1.0.0/gateway-operator-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-08-26T18:20:22.834673785Z"
