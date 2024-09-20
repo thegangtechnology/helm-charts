@@ -11,6 +11,17 @@ entries:
     urls:
     - https://github.com/thegangtechnology/helm-charts/releases/download/demo-0.1.0/demo-0.1.0.tgz
     version: 0.1.0
+  gateway-manifest:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-09-20T08:51:39.366590082Z"
+    description: A Helm chart for Kubernetes
+    digest: fee6c1467e2fbd41ccb316b38e7906f9619410c11f9ca700588b15c07cbc5adf
+    name: gateway-manifest
+    type: application
+    urls:
+    - https://github.com/thegangtechnology/helm-charts/releases/download/gateway-manifest-1.0.0/gateway-manifest-1.0.0.tgz
+    version: 1.0.0
   gateway-operator:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -22,4 +33,4 @@ entries:
     urls:
     - https://github.com/thegangtechnology/helm-charts/releases/download/gateway-operator-1.0.0/gateway-operator-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-26T18:20:22.834673785Z"
+generated: "2024-09-20T08:51:39.366598979Z"
