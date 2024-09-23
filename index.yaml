@@ -33,4 +33,15 @@ entries:
     urls:
     - https://github.com/thegangtechnology/helm-charts/releases/download/gateway-operator-1.0.0/gateway-operator-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-20T08:51:39.366598979Z"
+  service-router-manifest:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-09-23T07:30:06.361411532Z"
+    description: A Helm chart for Kubernetes
+    digest: 277c5993be7c91f0fc47e631e7a21f71204b75b3a6a2008424a1563c74327903
+    name: service-router-manifest
+    type: application
+    urls:
+    - https://github.com/thegangtechnology/helm-charts/releases/download/service-router-manifest-0.1.0/service-router-manifest-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-09-23T07:30:06.361428033Z"
