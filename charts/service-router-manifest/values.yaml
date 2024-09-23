@@ -1,0 +1,16 @@
+organization: "thegangtechnology"
+
+application:
+  name: ""
+  component: ""
+  environment: ""
+  
+gateway:
+  name: ""
+  namespace: ""
+
+domains:
+  - name: ""
+    wildcard: false
+    httpServices: {}
+    tcpServices: {}
