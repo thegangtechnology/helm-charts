@@ -1,15 +1,14 @@
-{{- if and .Values.gateway.enabled .Values.gateway.exposeServices.enabled -}}
-{{- range $i, $domain := .Values.gateway.exposeServices.domains }}
-{{- $domainName := ($domain.name | required ".Values.gateway.domain requires a valid domain" | trimPrefix "https://" | trimPrefix "http://" | trimSuffix "/") -}}
+{{- range $i, $domain := .Values.domains }}
+{{- $domainName := ($domain.name | required ".Values.domains.name requires a valid domain" | trimPrefix "https://" | trimPrefix "http://" | trimSuffix "/") -}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: {{ $.Values.application.name }}-{{ $domainName | replace "." "-" }}-vs
+  name: {{ $.Values.application.name | default "app" }}-{{ $domainName | replace "." "-" }}-http-vs
   namespace: {{ $.Release.Namespace }}
   labels:
-    organization: {{ $.Values.global.organization }}
-    application.name: {{ $.Values.application.name | quote }}
-    application.env: {{ $.Values.application.environment | quote }}
+    organization: {{ $.Values.organization | default "thegangtechnology" }}
+    application.name: {{ $.Values.application.name | default "app" | quote }}
+    application.env: {{ $.Values.application.environment | default "dev" | quote }}
     domain.name: {{ $domainName }}
 spec:
   hosts:
@@ -18,55 +17,39 @@ spec:
     - "*.{{ $domainName }}"
     {{- end }}
   gateways:
-    - {{ $.Values.gateway.namespace | default "istio-gateway" }}/{{ default $.Values.gateway.name $domain.gateway }}
+    - {{ $.Values.gateway.namespace | default "istio-gateway" }}/{{ $.Values.gateway.name | default "istio-gateway" }}
   http:
-  {{- range $ii, $service := $domain.httpServices }}
+  {{- range $ii, $httpService := $domain.httpServices }}
     - match:
-    {{- range $service.matchPrefixs }}
-      - uri:
-          prefix: {{ . | quote }}
+    {{- range $httpService.matchers }}
+      - {{ . | toYaml | nindent 8 | trim }}
     {{- end }}
       route:
         - destination:
-            host: {{ $service.name | quote }}
+            host: {{ $httpService.route.name | quote }}
             port:
-              number: {{ $service.port }}
+              number: {{ $httpService.route.port }}
       headers:
         response:
           set:
-            Strict-Transport-Security: "max-age={{ $.Values.gateway.hstsMaxAge | default "86400" }}; includeSubDomains"
-            {{- if and (hasKey $service "additionalResponseHeaders") ($service.additionalResponseHeaders) -}}
-              {{- toYaml $service.additionalResponseHeaders | nindent 12 }}
+            Strict-Transport-Security: "max-age={{ $.Values.gateway.hstsMaxAge | default "86400" }};"
+            {{- if and (hasKey $httpService "additionalResponseHeaders") ($httpService.additionalResponseHeaders) -}}
+              {{- toYaml $httpService.additionalResponseHeaders | nindent 12 }}
             {{- end }}
-      {{- if and (hasKey $.Values.gateway "corsPolicy") ($.Values.gateway.corsPolicy) }}
+      {{- if and (hasKey $httpService "corsPolicy") ($httpService.corsPolicy) }}
       corsPolicy:
-        {{ if and (hasKey $.Values.gateway.corsPolicy "origins") ($.Values.gateway.corsPolicy.origins) }}
+        {{- if and (hasKey $httpService.corsPolicy "origins") ($httpService.corsPolicy.origins) }}
         allowOrigins:
-        {{- range $.Values.gateway.corsPolicy.origins }}
+        {{- range $httpService.corsPolicy.origins }}
           - exact: {{ . | quote }}
-        {{- end}}
-        {{ end }}
-        allowCredentials: {{ $.Values.gateway.corsPolicy.allowCredentials | default "false" }}
+        {{- end }}
+        {{- end }}
+        allowCredentials: {{ $httpService.corsPolicy.allowCredentials | default "false" }}
         allowHeaders:
-          {{- range $.Values.gateway.corsPolicy.allowHeaders }}
+          {{- range $httpService.corsPolicy.allowHeaders }}
           - {{ . | quote }}
-          {{- end}}
-          
+          {{- end }}
       {{- end }}
   {{- end }}
-  tcp:
-    {{- range $ii, $service := $domain.tcpServices }}
-    - match:
-      - port: {{ $service.port }}
-      {{- range $service.matchPorts }}
-      - port: {{ . }}
-      {{- end }}
-      route:
-        - destination:
-            host: {{ $service.name | quote }}
-            port:
-              number: {{ $service.port }}
-    {{- end }}
 ---
-{{- end }}
 {{- end }}

@@ -12,5 +12,35 @@ gateway:
 domains:
   - name: ""
     wildcard: false
-    httpServices: {}
+    httpServices:
+      # docs: https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPMatchRequest
+      # - matchers:
+      #   - uri:
+      #       exact: "/api"
+      #   - uri:
+      #       # RE2 Regex
+      #       regex: "^[a-z]$"
+      matchers: []
+
+      # docs: https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRouteDestination
+      # route:
+      #   name: "some-backend-svc"
+      #   port: 80
+      route: {}
+
+      # docs: https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
+      # corsPolicy:
+      #     origins: 
+      #       - example.com
+      #     allowCredentials: true
+      #     allowHeaders:
+      #       - SomeHeader
+      #       - SomeHeaderTwo
+      corsPolicy: {}
+
+      # docs: https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
+      # additionalResponseHeaders:
+      #     SomeKey: SomeValue
+      additionalResponseHeaders: {}
+
     tcpServices: {}
